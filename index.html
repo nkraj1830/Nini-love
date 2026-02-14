@@ -37,7 +37,8 @@
         /* Floating Background Elements */
         .bg-element {
             position: fixed;
-            opacity: 0.4;
+            top: 100vh;
+            opacity: 0;
             animation: floatUp linear infinite;
             z-index: 0;
             user-select: none;
@@ -66,19 +67,20 @@
 
         /* The Main Box Container */
         .container {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.4);
             padding: 3.5rem 2.5rem;
             border-radius: 30px;
             box-shadow: 0 10px 30px rgba(255, 143, 163, 0.35);
             text-align: center;
-            max-width: 90%;
+            max-width: 70%;
             width: 600px;
             min-height: 450px;
             height: auto;
             position: relative;
-            border: 2px solid #fff;
+            border: 2px solid rgba(255, 255, 255, 0.6);
             z-index: 10;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -91,6 +93,7 @@
                 min-height: 70vh;
                 height: auto;
                 padding: 2rem 1.5rem;
+                max-width: 70%;
             }
 
             .quote {
@@ -122,6 +125,7 @@
             color: var(--text-color);
             margin: 20px 0;
             letter-spacing: 10px;
+            background: rgba(255, 255, 255, 0.7);
             transition: box-shadow 0.3s;
         }
 
@@ -310,7 +314,7 @@
         }
 
         .final-message {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--text-color);
             line-height: 1.5;
             font-weight: 700;
@@ -366,12 +370,12 @@
         </div>
 
         <div id="celebration-screen" class="hidden">
-            <img src="boque.jpg"
-                alt="Beautiful Bouquet" class="bouquet-img">
+            <img src="boque.jpg" alt="Beautiful Bouquet" class="bouquet-img">
             <div class="css-heart"></div>
 
             <h2 class="final-title" id="final-title-text"></h2>
             <p class="final-message" id="final-message-text"></p>
+            <span class="signature" id="final-signature" style="margin-top: 15px;">— Yours, Nilesh</span>
         </div>
     </div>
 
@@ -397,6 +401,7 @@
 
         const finalTitleText = document.getElementById('final-title-text');
         const finalMessageText = document.getElementById('final-message-text');
+        const finalSignature = document.getElementById('final-signature');
 
         // --- LOCK SCREEN LOGIC ---
         function checkPasscode() {
@@ -419,7 +424,6 @@
         });
 
         // --- SCREEN 1 TYPEWRITER LOGIC ---
-        // Array.from prevents emojis from breaking when typed one by one!
         const quoteChars = Array.from('"To my beautiful Nini, In all the world, there is no heart for me like yours."');
         let typeIndex = 0;
 
@@ -439,8 +443,8 @@
         }
 
         // --- SCREEN 2 TYPEWRITER LOGIC ---
-        const finalTitleChars = Array.from("Yay! I love you! ❤️🌸");
-        const finalMsgChars = Array.from("You've made me the happiest guy in the world! I promise to always treat you like my queen, make you smile, and love you endlessly. Happy Valentine's Day, my beautiful Nini! 🧸✨💖");
+        const finalTitleChars = Array.from("Yay! I love you so much! ❤️🌸");
+        const finalMsgChars = Array.from("You just made me the happiest guy alive, babeee! I promise to always treat you like my queen, annoy you a little, make you smile a lot, and love you endlessly forever. Happy Valentine's Day, my beautiful Nini! 🧸✨💖");
 
         let titleTypeIndex = 0;
         let msgTypeIndex = 0;
@@ -459,7 +463,12 @@
             if (msgTypeIndex < finalMsgChars.length) {
                 finalMessageText.innerHTML += finalMsgChars[msgTypeIndex];
                 msgTypeIndex++;
-                setTimeout(startFinalMsgTypewriter, 35); // Slightly faster for the longer paragraph
+                setTimeout(startFinalMsgTypewriter, 35);
+            } else {
+                // Fade in the "Yours, Nilesh" signature at the very end
+                setTimeout(() => {
+                    finalSignature.style.opacity = '1';
+                }, 400);
             }
         }
 
@@ -482,21 +491,11 @@
             "You're breaking my heart! 🥀",
             "Last chance... 🕰️",
             "Accept na babeee Please 😭",
-            "No",
-            "Please Nini? 🥺",
-            "Are you sure? 😟",
-            "I'll cry! 😭",
-            "I'll die! 😵",
-            "Think again! 🤔",
-            "Don't do this to me! 💔",
-            "Have a heart! 💘",
-            "But Nilesh loves you! 🥰",
-            "I'm begging you! 🙏",
-            "Okay, now you're being mean! 😤",
-            "Just click Yes! 😡",
-            "You're breaking my heart! 🥀",
-            "Last chance... 🕰️",
-            "Accept na babeee Please 😭"
+            "Okay fine... 😔",
+            "Just kidding, YES! ❤️",
+            "Click Yes already! 😤",
+            "I'll give you chocolates! 🍫",
+            "Pretty please? 🥺💖"
         ];
 
         function runAway() {
@@ -533,7 +532,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             createFloatingElements(75);
 
-            // Start the celebration typewriter effect slightly after the screen transitions
             setTimeout(startFinalTitleTypewriter, 400);
         });
 
