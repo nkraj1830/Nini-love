@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Nini...</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@400;700;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@400;700;900&family=Fira+Code:wght@400&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -25,20 +25,23 @@
         body {
             font-family: 'Nunito', sans-serif;
             background-color: var(--pink-bg);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 2rem 0;
         }
 
         /* Floating Background Elements */
         .bg-element {
-            position: absolute;
+            position: fixed;
             opacity: 0.4;
             animation: floatUp linear infinite;
             z-index: 0;
             user-select: none;
+            pointer-events: none;
         }
 
         @keyframes floatUp {
@@ -61,7 +64,7 @@
             }
         }
 
-        /* The Main Box */
+        /* The Main Box Container */
         .container {
             background: rgba(255, 255, 255, 0.9);
             padding: 3.5rem 2.5rem;
@@ -71,33 +74,115 @@
             max-width: 90%;
             width: 600px;
             min-height: 450px;
+            height: auto;
             position: relative;
             border: 2px solid #fff;
             z-index: 10;
             backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
         }
 
-        /* Typography */
+        @media (max-width: 768px) {
+            .container {
+                min-height: 70vh;
+                height: auto;
+                padding: 2rem 1.5rem;
+            }
+
+            .quote {
+                font-size: 1.8rem;
+                min-height: 80px;
+            }
+
+            .question {
+                font-size: 1.8rem;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Lock Screen specific styles */
+        .passcode-input {
+            padding: 15px;
+            font-size: 1.8rem;
+            border-radius: 20px;
+            border: 2px solid var(--pink-dark);
+            text-align: center;
+            outline: none;
+            width: 80%;
+            max-width: 250px;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-color);
+            margin: 20px 0;
+            letter-spacing: 10px;
+            transition: box-shadow 0.3s;
+        }
+
+        .passcode-input:focus {
+            box-shadow: 0 0 15px rgba(255, 143, 163, 0.5);
+        }
+
+        .error-msg {
+            color: #d62828;
+            margin-top: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Typography & Bouncing Mascot */
         .quote {
             font-family: 'Dancing Script', cursive;
             font-size: 2.2rem;
             color: var(--pink-glow);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.4;
+            min-height: 100px;
         }
 
         .signature {
             font-size: 1.5rem;
             display: block;
-            margin-top: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
             color: var(--pink-dark);
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        .mascot {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .question {
             font-size: 2.2rem;
             color: var(--text-color);
             font-weight: 900;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transition: opacity 1s ease-in;
         }
 
         /* Buttons */
@@ -105,8 +190,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
             min-height: 70px;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            padding-bottom: 20px;
         }
 
         .btn {
@@ -121,7 +210,6 @@
             z-index: 100;
         }
 
-        /* The Yes Button - Size remains fixed now */
         .btn-yes {
             background-color: var(--pink-dark);
             color: white;
@@ -132,10 +220,8 @@
         .btn-yes:hover {
             background-color: #ff748c;
             transform: scale(1.05);
-            /* Just a tiny hover bump instead of infinite growing */
         }
 
-        /* The Runaway No Button */
         .btn-no {
             background-color: white;
             color: var(--text-color);
@@ -145,36 +231,91 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
-        #celebration-screen {
-            animation: fadeIn 0.8s ease-in-out forwards;
-        }
-
+        /* Bouquet Image */
         .bouquet-img {
             width: 80%;
-            max-width: 300px;
+            max-width: 250px;
             height: auto;
             border-radius: 20px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 10px;
             box-shadow: 0 8px 20px rgba(255, 143, 163, 0.3);
         }
 
+        /* Pure CSS Beating Heart */
+        .css-heart {
+            position: relative;
+            width: 50px;
+            height: 45px;
+            margin: 10px auto 20px auto;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        .css-heart::before,
+        .css-heart::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 25px;
+            height: 38px;
+            border-radius: 50px 50px 0 0;
+            background: linear-gradient(135deg, var(--pink-glow) 0%, #c9184a 100%);
+            box-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
+        }
+
+        .css-heart::before {
+            left: 25px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .css-heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            15% {
+                transform: scale(1.2);
+            }
+
+            30% {
+                transform: scale(1);
+            }
+
+            45% {
+                transform: scale(1.1);
+            }
+
+            60% {
+                transform: scale(1);
+            }
+        }
+
+        /* Final Text Sizing to prevent layout jumping */
         .final-title {
             font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
+            font-size: 2.6rem;
             color: var(--pink-glow);
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            min-height: 45px;
         }
 
         .final-message {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.5;
             font-weight: 700;
             padding: 0 10px;
+            min-height: 80px;
         }
 
         @keyframes fadeIn {
@@ -188,20 +329,37 @@
                 transform: translateY(0);
             }
         }
+
+        #main-box,
+        #celebration-screen {
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
     </style>
 </head>
 
 <body>
     <div id="bg-elements-container"></div>
 
-    <div class="container" id="main-box">
-        <div id="question-screen">
-            <p class="quote">"To my beautiful Nini,<br> In all the world, there is no heart for me like yours." <br>
-                <span class="signature">— Yours, Nilesh</span></p>
+    <div class="container" id="lock-screen">
+        <h1 class="question" style="opacity: 1; margin-bottom: 10px;">Secret Passcode 🔒</h1>
+        <p class="quote" style="font-size: 1.5rem; margin-bottom: 10px; min-height: auto;">Only Nini is allowed past
+            this point!</p>
 
-            <h1 class="question">Will you be my Valentine please?</h1>
+        <input type="password" id="passcodeInput" class="passcode-input" placeholder="••••" maxlength="4">
 
-            <div class="btn-group">
+        <button class="btn btn-yes" id="unlockBtn">Unlock 💖</button>
+        <p id="error-message" class="error-msg hidden">Oops! Wrong passcode, cutie. Try again!</p>
+    </div>
+
+    <div class="container hidden" id="main-box">
+        <div id="question-screen" style="width: 100%;">
+            <p class="quote" id="typewriter-text"></p>
+            <span class="signature" id="signature">— Yours, Nilesh</span>
+
+            <div class="mascot" id="mascot">🧸💖</div>
+            <h1 class="question" id="main-question">Will you be my Valentine please?</h1>
+
+            <div class="btn-group" id="btn-group">
                 <button class="btn btn-yes" id="yesBtn">Yes! ❤️</button>
                 <button class="btn btn-no" id="noBtn">No</button>
             </div>
@@ -210,20 +368,102 @@
         <div id="celebration-screen" class="hidden">
             <img src="boque.jpg"
                 alt="Beautiful Bouquet" class="bouquet-img">
-            <h2 class="final-title">Yay! I love you! ❤️🌸</h2>
-            <p class="final-message">You've made me the happiest guy in the world! I promise to always treat you like my
-                queen, make you smile, and love you endlessly. Happy Valentine's Day, my beautiful Nini! 🧸✨💖</p>
+            <div class="css-heart"></div>
+
+            <h2 class="final-title" id="final-title-text"></h2>
+            <p class="final-message" id="final-message-text"></p>
         </div>
     </div>
 
     <script>
+        const lockScreen = document.getElementById('lock-screen');
+        const passcodeInput = document.getElementById('passcodeInput');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const errorMessage = document.getElementById('error-message');
+
+        const mainBox = document.getElementById('main-box');
         const questionScreen = document.getElementById('question-screen');
         const celebrationScreen = document.getElementById('celebration-screen');
+
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const mainBox = document.getElementById('main-box');
         const bgElementsContainer = document.getElementById('bg-elements-container');
 
+        const typewriterText = document.getElementById('typewriter-text');
+        const signature = document.getElementById('signature');
+        const mascot = document.getElementById('mascot');
+        const mainQuestion = document.getElementById('main-question');
+        const btnGroup = document.getElementById('btn-group');
+
+        const finalTitleText = document.getElementById('final-title-text');
+        const finalMessageText = document.getElementById('final-message-text');
+
+        // --- LOCK SCREEN LOGIC ---
+        function checkPasscode() {
+            const code = passcodeInput.value;
+            if (code === '1923') {
+                lockScreen.classList.add('hidden');
+                mainBox.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+
+                setTimeout(startTypewriter, 500);
+            } else {
+                errorMessage.classList.remove('hidden');
+                passcodeInput.value = '';
+            }
+        }
+
+        unlockBtn.addEventListener('click', checkPasscode);
+        passcodeInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkPasscode();
+        });
+
+        // --- SCREEN 1 TYPEWRITER LOGIC ---
+        // Array.from prevents emojis from breaking when typed one by one!
+        const quoteChars = Array.from('"To my beautiful Nini, In all the world, there is no heart for me like yours."');
+        let typeIndex = 0;
+
+        function startTypewriter() {
+            if (typeIndex < quoteChars.length) {
+                typewriterText.innerHTML += quoteChars[typeIndex];
+                typeIndex++;
+                setTimeout(startTypewriter, 50);
+            } else {
+                setTimeout(() => {
+                    signature.style.opacity = '1';
+                    mascot.style.opacity = '1';
+                    mainQuestion.style.opacity = '1';
+                    btnGroup.style.opacity = '1';
+                }, 500);
+            }
+        }
+
+        // --- SCREEN 2 TYPEWRITER LOGIC ---
+        const finalTitleChars = Array.from("Yay! I love you! ❤️🌸");
+        const finalMsgChars = Array.from("You've made me the happiest guy in the world! I promise to always treat you like my queen, make you smile, and love you endlessly. Happy Valentine's Day, my beautiful Nini! 🧸✨💖");
+
+        let titleTypeIndex = 0;
+        let msgTypeIndex = 0;
+
+        function startFinalTitleTypewriter() {
+            if (titleTypeIndex < finalTitleChars.length) {
+                finalTitleText.innerHTML += finalTitleChars[titleTypeIndex];
+                titleTypeIndex++;
+                setTimeout(startFinalTitleTypewriter, 60);
+            } else {
+                setTimeout(startFinalMsgTypewriter, 200);
+            }
+        }
+
+        function startFinalMsgTypewriter() {
+            if (msgTypeIndex < finalMsgChars.length) {
+                finalMessageText.innerHTML += finalMsgChars[msgTypeIndex];
+                msgTypeIndex++;
+                setTimeout(startFinalMsgTypewriter, 35); // Slightly faster for the longer paragraph
+            }
+        }
+
+        // --- VALENTINE QUESTION LOGIC ---
         let clickCount = 0;
 
         const pleadingTexts = [
@@ -245,13 +485,11 @@
         ];
 
         function runAway() {
-            // 1. Update text
             if (clickCount < pleadingTexts.length - 1) {
                 clickCount++;
             }
             noBtn.innerText = pleadingTexts[clickCount];
 
-            // 2. Trapped inside the box logic
             noBtn.style.position = 'absolute';
 
             const boxWidth = mainBox.clientWidth;
@@ -259,13 +497,11 @@
             const btnWidth = noBtn.offsetWidth;
             const btnHeight = noBtn.offsetHeight;
 
-            // Calculate max X and Y *inside* the box, leaving 10px of safe space
-            let maxX = boxWidth - btnWidth - 10;
-            let maxY = boxHeight - btnHeight - 10;
+            let maxX = boxWidth - btnWidth - 15;
+            let maxY = boxHeight - btnHeight - 15;
 
-            // Fallback for tiny phone screens so it doesn't break
-            maxX = maxX > 10 ? maxX : 10;
-            maxY = maxY > 10 ? maxY : 10;
+            maxX = maxX > 15 ? maxX : 15;
+            maxY = maxY > 15 ? maxY : 15;
 
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
@@ -279,9 +515,14 @@
         yesBtn.addEventListener('click', () => {
             questionScreen.classList.add('hidden');
             celebrationScreen.classList.remove('hidden');
-            createFloatingElements(50);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            createFloatingElements(75);
+
+            // Start the celebration typewriter effect slightly after the screen transitions
+            setTimeout(startFinalTitleTypewriter, 400);
         });
 
+        // --- BACKGROUND ELEMENTS LOGIC ---
         function createFloatingElements(count) {
             const cuteElements = ['❤', '🧸', '🌸', '✨', '💖', '🎀', '💌'];
 
