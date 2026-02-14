@@ -37,7 +37,7 @@
         /* Floating Background Elements */
         .bg-element {
             position: fixed;
-            top: 100vh;
+            top: 0;
             opacity: 0;
             animation: floatUp linear infinite;
             z-index: 0;
@@ -60,7 +60,7 @@
             }
 
             100% {
-                transform: translateY(-15vh) scale(1.3) rotate(20deg);
+                transform: translateY(-20vh) scale(1.3) rotate(20deg);
                 opacity: 0;
             }
         }
@@ -80,7 +80,7 @@
             border: 2px solid rgba(255, 255, 255, 0.6);
             z-index: 10;
             backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(4px);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -93,12 +93,12 @@
                 min-height: 70vh;
                 height: auto;
                 padding: 2rem 1.5rem;
-                max-width: 70%;
+                max-width: 80%;
             }
 
             .quote {
                 font-size: 1.8rem;
-                min-height: 80px;
+                min-height: 100px;
             }
 
             .question {
@@ -303,14 +303,13 @@
             }
         }
 
-        /* Final Text Sizing to prevent layout jumping */
+        /* Clean Text Styling - Size jumping fixed by ghost container logic below */
         .final-title {
             font-family: 'Dancing Script', cursive;
             font-size: 2.6rem;
             color: var(--pink-glow);
             font-weight: 700;
             margin-bottom: 10px;
-            min-height: 45px;
         }
 
         .final-message {
@@ -319,7 +318,6 @@
             line-height: 1.5;
             font-weight: 700;
             padding: 0 10px;
-            min-height: 80px;
         }
 
         @keyframes fadeIn {
@@ -369,13 +367,30 @@
             </div>
         </div>
 
-        <div id="celebration-screen" class="hidden">
+        <div id="celebration-screen" class="hidden" style="width: 100%;">
             <img src="boque.jpg" alt="Beautiful Bouquet" class="bouquet-img">
             <div class="css-heart"></div>
 
-            <h2 class="final-title" id="final-title-text"></h2>
-            <p class="final-message" id="final-message-text"></p>
-            <span class="signature" id="final-signature" style="margin-top: 15px;">— Yours, Nilesh</span>
+            <div style="position: relative; width: 100%;">
+
+                <div style="visibility: hidden; pointer-events: none;">
+                    <h2 class="final-title">Yay! I love you so much! ❤️🌸</h2>
+                    <p class="final-message">You just made me the happiest guy alive, babeee! I promise to always treat
+                        you like my queen, annoy you a little, make you smile a lot, and love you endlessly forever.
+                        Happy Valentine's Day, my beautiful Nini! 🧸✨💖</p>
+                    <span class="signature" style="margin-top: 5px; margin-bottom: 0; display: block;">— Yours,
+                        Nilesh</span>
+                </div>
+
+                <div
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+                    <h2 class="final-title" id="final-title-text"></h2>
+                    <p class="final-message" id="final-message-text"></p>
+                    <span class="signature" id="final-signature"
+                        style="margin-top: 5px; margin-bottom: 0; display: block;">— Yours, Nilesh</span>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -443,7 +458,7 @@
         }
 
         // --- SCREEN 2 TYPEWRITER LOGIC ---
-        const finalTitleChars = Array.from("Yay! I love you so much! ❤️🌸");
+        const finalTitleChars = Array.from("Yay! I love you so much Baby !! ❤️🌸");
         const finalMsgChars = Array.from("You just made me the happiest guy alive, babeee! I promise to always treat you like my queen, annoy you a little, make you smile a lot, and love you endlessly forever. Happy Valentine's Day, my beautiful Nini! 🧸✨💖");
 
         let titleTypeIndex = 0;
@@ -465,7 +480,6 @@
                 msgTypeIndex++;
                 setTimeout(startFinalMsgTypewriter, 35);
             } else {
-                // Fade in the "Yours, Nilesh" signature at the very end
                 setTimeout(() => {
                     finalSignature.style.opacity = '1';
                 }, 400);
